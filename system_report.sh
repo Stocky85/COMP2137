@@ -18,11 +18,11 @@ system_date="$(date)"
 # Gets the operating system name and version.
 system_os="$(hostnamectl | grep 'Operating System' | cut -d':' -f2 | xargs)"
 
-# Gets the pretty uptime format, capitalizes the first letter and skips the first word.
-system_uptime="$(uptime -p | sed 's/^up/Uptime:/' | cut -d' ' -f2-)"
+# Gets the system uptime.
+system_uptime="$(uptime -p)"
 
-# Finds the make and model of the processor using lshw and removes extra spaces.
-system_cpu="$(lshw -class processor | grep product | cut -d':' -f2 | head -n 1 | xargs)"
+# Gets the CPU model name and removes extra spaces.
+system_cpu="$(lscpu | grep 'Model name' | cut -d':' -f2 | xargs)"
 
 # Checks out the memory details, finds the "Mem:" line and grabs the 2nd column to get the total size.
 system_ram="$(free -h | awk '/Mem:/ {print $2}')"
@@ -63,7 +63,7 @@ status_count="$(ps -e --no-headers | wc -l)"
 status_load="$(uptime | awk -F'load average:' '{print $2}' | xargs)"
 
 # Gets the listening ports, hides headers, separates port numbers and sorts everything.
-status_ports="$(ss -tuln | grep -v 'Netid' | awk '{print $5}' | cut -d':' -f2 | tr -d '*' | grep -v '^$' | sort -nu | paste -sd ',' -)"
+status_ports="$(ss -tuln | awk 'NR>1 {print $5}' | cut -d':' -f2 | sort -u | paste -sd ',' -)"
 
 # Reads the UFW status and grabs the UFW state.
 status_ufw="$(sudo ufw status | head -n 1 | cut -d':' -f2 | xargs)"
