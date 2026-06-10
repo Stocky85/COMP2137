@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 echo ""
 
@@ -7,43 +7,43 @@ echo ""
 
 
 # Gets the hostname of the system.
-system_host="$(hostname)"
+system_host=$(hostname)
 
 # Gets the username of the user who runs the script.
-system_user="$(whoami)"
+system_user=$(whoami)
 
 # Gets the date and time.
-system_date="$(date)"
+system_date=$(date)
 
 # Gets the operating system name and version.
-system_os="$(hostnamectl | grep 'Operating System' | cut -d':' -f2 | xargs)"
+system_os=$(hostnamectl | grep 'Operating System' | cut -d':' -f2 | xargs)
 
 # Gets the system uptime.
-system_uptime="$(uptime -p)"
+system_uptime=$(uptime -p)
 
 # Gets the CPU model name and removes extra spaces.
-system_cpu="$(lscpu | grep 'Model name' | cut -d':' -f2 | xargs)"
+system_cpu=$(lscpu | grep 'Model name' | cut -d':' -f2 | xargs)
 
 # Uses the lshw command to find the "System Memory" section, locates "size:" and gathers the total RAM size.
-system_ram="$(sudo lshw -class memory | grep -A5 'System Memory' | grep 'size:' | cut -d':' -f2 | xargs)"
+system_ram=$(sudo lshw -class memory | grep -A5 'System Memory' | grep 'size:' | cut -d':' -f2 | xargs)
 
 # Gets the name of the video card and hides any error messages.
-system_videocard="$(lshw -class display 2>/dev/null | grep product | cut -d':' -f2 | xargs)"
+system_videocard=$(lshw -class display 2>/dev/null | grep product | cut -d':' -f2 | xargs)
 
 # Lists every disk that is installed by their model and size and also removes headings.
-system_disk="$(lsblk -dn -e 7 -o MODEL,SIZE)"
+system_disk=$(lsblk -dn -e 7 -o MODEL,SIZE)
 
 # Finds the network card name connected to the main gateway.
-network_card="$(ip r | grep default | awk '{print $5}')"
+network_card=$(ip r | grep default | awk '{print $5}')
 
 # Shows the IP details, finds the local IP line, and removes the subnet mask.
-system_address="$(ip a show $network_card | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}' | cut -d/ -f1)"
+system_address=$(ip a show $network_card | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}' | cut -d/ -f1)
 
 # Finds the gateway IP address from the routing table.
-system_gateway="$(ip r | grep default | awk '{print $3}')"
+system_gateway=$(ip r | grep default | awk '{print $3}')
 
 # Searches the nameserver line in resolv.conf and prints the IP address column.
-system_dns="$(grep nameserver /etc/resolv.conf | awk '{print $2}' | head -n 1)"
+system_dns=$(grep nameserver /etc/resolv.conf | awk '{print $2}' | head -n 1)
 
 
 # System status variables.
@@ -51,22 +51,22 @@ system_dns="$(grep nameserver /etc/resolv.conf | awk '{print $2}' | head -n 1)"
 
 
 # Finds out who is logged in, sort users alphabetically, remove any duplicates and separates each user with a comma.
-status_users="$(who | awk '{print $1}' | sort -u | paste -sd ',' -)"
+status_users=$(who | awk '{print $1}' | sort -u | paste -sd ',' -)
 
 # Looks at the disk space and filters for actual system storage locations and mountpoint/free space.
-status_disk="$(df -h | grep '^/dev/' | awk '{printf "%-30s %s\n", $6, $4}')"
+status_disk=$(df -h | grep '^/dev/' | awk '{printf "%-30s %s\n", $6, $4}')
 
 # Counts every running process on the system without including headers.
-status_count="$(ps -e --no-headers | wc -l)"
+status_count=$(ps -e --no-headers | wc -l)
 
 # Singles out the load average numbers by splitting the line at "load average:".
-status_load="$(uptime | awk -F'load average:' '{print $2}' | xargs)"
+status_load=$(uptime | awk -F'load average:' '{print $2}' | xargs)
 
 # Gets the listening ports, hides headers, separates port numbers and sorts everything.
-status_ports="$(ss -tuln | awk 'NR>1 {print $5}' | cut -d':' -f2 | grep -v '^$' | sort -u | paste -sd ',' -)"
+status_ports=$(ss -tuln | awk 'NR>1 {print $5}' | cut -d':' -f2 | grep -v '^$' | sort -u | paste -sd ',' -)
 
 # Reads the UFW status and grabs the UFW state.
-status_ufw="$(sudo ufw status | head -n 1 | cut -d':' -f2 | xargs)"
+status_ufw=$(sudo ufw status | head -n 1 | cut -d':' -f2 | xargs)
 
 
 # Output template.
