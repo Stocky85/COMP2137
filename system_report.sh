@@ -24,14 +24,14 @@ system_uptime="$(uptime -p)"
 # Gets the CPU model name and removes extra spaces.
 system_cpu="$(lscpu | grep 'Model name' | cut -d':' -f2 | xargs)"
 
-# Checks out the memory details, finds the "Mem:" line and grabs the 2nd column to get the total size.
-system_ram="$(free -h | awk '/Mem:/ {print $2}')"
+# Uses the lshw command to find the "System Memory" section, locates "size:" and gathers the total RAM size.
+system_ram="$(sudo lshw -class memory | grep -A5 'System Memory' | grep 'size:' | cut -d':' -f2 | xargs)"
 
 # Gets the name of the video card and hides any error messages.
 system_videocard="$(lshw -class display 2>/dev/null | grep product | cut -d':' -f2 | xargs)"
 
 # Lists every disk that is installed by their model and size and also removes headings.
-system_disk="$(lsblk -dn -e 7 -o MODEL,SIZE | xargs)"
+system_disk="$(lsblk -dn -e 7 -o MODEL,SIZE)"
 
 # Finds the network card name connected to the main gateway.
 network_card="$(ip r | grep default | awk '{print $5}')"
@@ -54,7 +54,7 @@ system_dns="$(grep nameserver /etc/resolv.conf | awk '{print $2}' | head -n 1)"
 status_users="$(who | awk '{print $1}' | sort -u | paste -sd ',' -)"
 
 # Looks at the disk space and filters for actual system storage locations and mountpoint/free space.
-status_disk="$(df -h | grep '^/dev/' | awk '{print $6, $4}' | paste -sd ', ' -)"
+status_disk="$(df -h | grep '^/dev/' | awk '{printf "%-30s %s\n", $6, $4}')"
 
 # Counts every running process on the system without including headers.
 status_count="$(ps -e --no-headers | wc -l)"
@@ -63,7 +63,7 @@ status_count="$(ps -e --no-headers | wc -l)"
 status_load="$(uptime | awk -F'load average:' '{print $2}' | xargs)"
 
 # Gets the listening ports, hides headers, separates port numbers and sorts everything.
-status_ports="$(ss -tuln | awk 'NR>1 {print $5}' | cut -d':' -f2 | sort -u | paste -sd ',' -)"
+status_ports="$(ss -tuln | awk 'NR>1 {print $5}' | cut -d':' -f2 | grep -v '^$' | sort -u | paste -sd ',' -)"
 
 # Reads the UFW status and grabs the UFW state.
 status_ufw="$(sudo ufw status | head -n 1 | cut -d':' -f2 | xargs)"
@@ -84,7 +84,8 @@ OS: $system_os
 Uptime: $system_uptime
 CPU: $system_cpu
 RAM: $system_ram
-Disk(s): $system_disk
+Disk(s):
+$system_disk
 Video: $system_videocard
 Host Address: $system_address
 Gateway IP: $system_gateway
@@ -93,7 +94,8 @@ DNS Server: $system_dns
 System Status
 -------------
 Users Logged In: $status_users
-Disk Space: $status_disk
+Disk Space:
+$status_disk
 Process Count: $status_count
 Load Averages: $status_load
 Listening Network Ports: $status_ports
