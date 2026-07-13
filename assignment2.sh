@@ -60,7 +60,7 @@ hosts_status="Updated with 192.168.16.21 server1."
 echo "Checking Software Packages!"
 echo ""
 
-# Updates the local package lists.
+# Updates local package lists.
 apt-get update -y > /dev/null 2>&1
 
 # Checks to see if apache is installed and installs it if not installed.
