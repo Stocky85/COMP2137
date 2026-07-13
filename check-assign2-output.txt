@@ -1,0 +1,198 @@
+---Host/Student info----
+
+Running on Mon Jul 13 05:52:11 AM UTC 2026
+Run by Dante - () on host
+ Static hostname: generic-vm
+      Machine ID: 8f1d519340fc46a1baf93f79d5e831c5
+Operating System: Ubuntu 24.04.4 LTS
+a98742121b14ebe6350c4bf8245d0062  ./check-assign2-script.sh - a98742121b14ebe6350c4bf8245d0062  -
+------------------------
+
+---Start of Assignment2.sh Check------
+---Running makecontainers.sh----------
+This script performs many tasks. Please be patient
+To see more about what it is doing as it does it, use the --verbose option
+You may ignore any messages about Open vSwitch or dpkg-preconfigure being unable to re-open stdin
+DO NOT use control-Z when this script is running.
+Network lan deleted
+Network mgmt deleted
+Network lan created
+Network mgmt created
+Launching openwrt
+Retrieving image: Unpack: 100% (2.07GB/s)                                          Retrieving image: Unpack: 100% (2.07GB/s)                                          Launching server1
+Retrieving image: Unpack: 100% (1.80GB/s)                                          Retrieving image: Unpack: 100% (1.80GB/s)                                          inactive
+Pushing /home/Dante/.ssh/id_ed25519.pub to /home/remoteadmin/.ssh/id_ed25519.pub: 100% (532.61MB/s)                                                                                                    Waiting for server1 restart
+# Host server1-mgmt found: line 5
+/home/Dante/.ssh/known_hosts updated.
+Original contents retained as /home/Dante/.ssh/known_hosts.old
+---Retrieving assignment2.sh script---
+Retrieved assignment2 script
+Copied assignment2.sh script to server1
+---assignment2.sh run----
+-------------------------
+
+--network--------
+/etc/hosts
+-----------------------
+127.0.0.1	localhost
+::1		localhost ip6-localhost ip6-loopback
+ff02::1		ip6-allnodes
+ff02::2		ip6-allrouters
+
+
+192.168.16.241 server1
+172.16.1.241 server1-mgmt
+192.168.16.2 openwrt
+172.16.1.2 openwrt-mgmt
+
+-------------
+/etc/netplan/10-lxc.yaml
+-----------------------
+network:
+    version: 2
+    ethernets:
+        eth0:
+            addresses: [172.16.1.241/24]
+        eth1:
+            addresses: [192.168.16.241/24]
+            routes:
+              - to: default
+                via: 192.168.16.2
+            nameservers:
+                addresses: [192.168.16.2]
+                search: [home.arpa, localdomain]
+-------------
+---applying netplan---
+---ip a---------------
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+398: eth0@if399: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:16:3e:e2:d8:0b brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.16.1.241/24 brd 172.16.1.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::216:3eff:fee2:d80b/64 scope link 
+       valid_lft forever preferred_lft forever
+400: eth1@if401: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:16:3e:03:29:19 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 192.168.16.241/24 brd 192.168.16.255 scope global eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::216:3eff:fe03:2919/64 scope link 
+       valid_lft forever preferred_lft forever
+--ip r----------------
+default via 192.168.16.2 dev eth1 proto static 
+172.16.1.0/24 dev eth0 proto kernel scope link src 172.16.1.241 
+192.168.16.0/24 dev eth1 proto kernel scope link src 192.168.16.241 
+----------------------
+
+---services status------
+------------------------
+
+---ufw show added-------
+---ufw show status------
+------------------------
+
+---getents--------------------
+sudo:x:27:ubuntu
+---user home dir contents-----
+  2755460      4 -rw-r--r--   1 ubuntu   ubuntu        807 Mar 31  2024 /home/ubuntu/.profile
+  2755459      4 -rw-r--r--   1 ubuntu   ubuntu       3771 Mar 31  2024 /home/ubuntu/.bashrc
+  2755458      4 -rw-r--r--   1 ubuntu   ubuntu        220 Mar 31  2024 /home/ubuntu/.bash_logout
+  2773893      4 -rw-r--r--   1 root     remoteadmin      807 Mar 31  2024 /home/remoteadmin/.profile
+  2775311      0 -rw-r--r--   1 root     root               0 Jul 13 05:53 /home/remoteadmin/.cache/motd.legal-displayed
+  2775119      4 -rw-r--r--   1 root     remoteadmin     3771 Mar 31  2024 /home/remoteadmin/.bashrc
+  2775312      0 -rwxr-xr-x   1 root     remoteadmin        0 Jul 13 05:53 /home/remoteadmin/assignment2.sh
+  2775120      4 -rw-r--r--   1 root     remoteadmin      220 Mar 31  2024 /home/remoteadmin/.bash_logout
+  2775324      4 -rw-r--r--   1 root     remoteadmin       98 Jul 13 05:52 /home/remoteadmin/.ssh/id_ed25519.pub
+  2775325      4 -rw-------   1 root     root              98 Jul 13 05:52 /home/remoteadmin/.ssh/authorized_keys
+/home/remoteadmin/.ssh/authorized_keys
+-----------------------
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAq9vnK90OEITga2S+rYiBZYx3S/+ga7Rz5K8r39B6b Dante@generic-vm
+-------------
+------------------------------
+
+---assignment2.sh rerun--------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+
+--network--------
+/etc/hosts
+-----------------------
+127.0.0.1	localhost
+::1		localhost ip6-localhost ip6-loopback
+ff02::1		ip6-allnodes
+ff02::2		ip6-allrouters
+
+
+192.168.16.241 server1
+172.16.1.241 server1-mgmt
+192.168.16.2 openwrt
+172.16.1.2 openwrt-mgmt
+
+-------------
+/etc/netplan/10-lxc.yaml
+-----------------------
+network:
+    version: 2
+    ethernets:
+        eth0:
+            addresses: [172.16.1.241/24]
+        eth1:
+            addresses: [192.168.16.241/24]
+            routes:
+              - to: default
+                via: 192.168.16.2
+            nameservers:
+                addresses: [192.168.16.2]
+                search: [home.arpa, localdomain]
+-------------
+---applying netplan---
+---ip a---------------
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+398: eth0@if399: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:16:3e:e2:d8:0b brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.16.1.241/24 brd 172.16.1.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::216:3eff:fee2:d80b/64 scope link 
+       valid_lft forever preferred_lft forever
+400: eth1@if401: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:16:3e:03:29:19 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 192.168.16.241/24 brd 192.168.16.255 scope global eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::216:3eff:fe03:2919/64 scope link 
+       valid_lft forever preferred_lft forever
+--ip r----------------
+default via 192.168.16.2 dev eth1 proto static 
+172.16.1.0/24 dev eth0 proto kernel scope link src 172.16.1.241 
+192.168.16.0/24 dev eth1 proto kernel scope link src 192.168.16.241 
+----------------------
+
+---services status------
+------------------------
+
+---getents--------------------
+sudo:x:27:ubuntu
+---user home dir contents-----
+  2755460      4 -rw-r--r--   1 ubuntu   ubuntu        807 Mar 31  2024 /home/ubuntu/.profile
+  2755459      4 -rw-r--r--   1 ubuntu   ubuntu       3771 Mar 31  2024 /home/ubuntu/.bashrc
+  2755458      4 -rw-r--r--   1 ubuntu   ubuntu        220 Mar 31  2024 /home/ubuntu/.bash_logout
+  2773893      4 -rw-r--r--   1 root     remoteadmin      807 Mar 31  2024 /home/remoteadmin/.profile
+  2775311      0 -rw-r--r--   1 root     root               0 Jul 13 05:53 /home/remoteadmin/.cache/motd.legal-displayed
+  2775119      4 -rw-r--r--   1 root     remoteadmin     3771 Mar 31  2024 /home/remoteadmin/.bashrc
+  2775312      0 -rwxr-xr-x   1 root     remoteadmin        0 Jul 13 05:53 /home/remoteadmin/assignment2.sh
+  2775120      4 -rw-r--r--   1 root     remoteadmin      220 Mar 31  2024 /home/remoteadmin/.bash_logout
+  2775324      4 -rw-r--r--   1 root     remoteadmin       98 Jul 13 05:52 /home/remoteadmin/.ssh/id_ed25519.pub
+  2775325      4 -rw-------   1 root     root              98 Jul 13 05:52 /home/remoteadmin/.ssh/authorized_keys
+/home/remoteadmin/.ssh/authorized_keys
+-----------------------
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAq9vnK90OEITga2S+rYiBZYx3S/+ga7Rz5K8r39B6b Dante@generic-vm
+-------------
+------------------------------
+
