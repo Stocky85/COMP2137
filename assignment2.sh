@@ -57,29 +57,28 @@ hosts_status="Updated with 192.168.16.21 server1."
 #_-_-_-_-_-_-_-_-_-_-_-_
 
 
+# Software installation.
 echo "Checking Software Packages!"
-echo ""
 
-# Updates the local package lists.
 apt-get update -y > /dev/null 2>&1
 
-# Checks to see if apache is installed and installs it if not installed.
+# Installs and starts Apache.
 if ! dpkg -s apache2 >/dev/null 2>&1; then
-    echo "Installing Apache..."
     apt-get install -y apache2 > /dev/null
-    apache_status="Apache was installed."
+    apache_status="Apache was installed and started."
 else
     apache_status="Apache has already been installed."
 fi
+systemctl enable --now apache2 2>/dev/null
 
-# Checks to see if squid is installed and installs it if not installed.
+# Installs and starts Squid.
 if ! dpkg -s squid >/dev/null 2>&1; then
-    echo "Installing Squid..."
     apt-get install -y squid > /dev/null
-    squid_status="Squid was installed."
+    squid_status="Squid was installed and started."
 else
     squid_status="Squid has already been installed."
 fi
+systemctl enable --now squid 2>/dev/null
 
 
 # User configuration and SSH keys.
@@ -143,8 +142,8 @@ configure_user() {
     ed_key=$(cat "$ssh_directory/id_ed25519.pub")
 
     # Adds the public key to the authorized list if not already there.
-    grep -qF "$rsa_pub" "$authorized_file" || echo "$rsa_key" >> "$authorized_file"
-    grep -qF "$ed_pub" "$authorized_file" || echo "$ed_key" >> "$authorized_file"
+    grep -qF "$rsa_key" "$authorized_file" || echo "$rsa_key" >> "$authorized_file"
+    grep -qF "$ed_key" "$authorized_file" || echo "$ed_key" >> "$authorized_file"
 }
 
 # Runs the configuration steps for each user.
