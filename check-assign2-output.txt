@@ -1,4 +1,4 @@
----Host/Student info----
+---Host/Student info---
 
 Running on Tue Jul 14 04:59:51 AM UTC 2026
 Run by root - () on host
@@ -19,9 +19,22 @@ Network mgmt deleted
 Network lan created
 Network mgmt created
 Launching openwrt
-Retrieving image: Unpack: 100% (2.04GB/s)                                          Retrieving image: Unpack: 100% (2.04GB/s)                                          Launching server1
-Retrieving image: Unpack: 100% (1.44GB/s)                                          Retrieving image: Unpack: 100% (1.44GB/s)                                          inactive
-Pushing /root/.ssh/id_ed25519.pub to /home/remoteadmin/.ssh/id_ed25519.pub: 100% (532.97MB/s)                                                                                              Waiting for server1 restart
+
+Retrieving image: Unpack: 100% (2.04GB/s)
+                                          
+Retrieving image: Unpack: 100% (2.04GB/s)
+                                          
+Launching server1
+
+Retrieving image: Unpack: 100% (1.44GB/s)
+                                          
+Retrieving image: Unpack: 100% (1.44GB/s)
+                                          
+inactive
+
+Pushing /root/.ssh/id_ed25519.pub to /home/remoteadmin/.ssh/id_ed25519.pub: 100% (532.97MB/s)
+                                                                                              
+Waiting for server1 restart
 # Host server1-mgmt found: line 1
 /root/.ssh/known_hosts updated.
 Original contents retained as /root/.ssh/known_hosts.old
