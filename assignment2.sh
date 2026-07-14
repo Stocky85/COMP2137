@@ -2,7 +2,7 @@
 
 echo ""
 
-# Checks see if the script is ran as root.
+# Checks to see if the script is ran as root.
 if [ "$EUID" -ne 0 ]; then
   echo "Please run this script as root."
   exit 1
